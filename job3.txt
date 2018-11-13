@@ -1,0 +1,5 @@
+3
+CALCULATE 3
+IO 3
+YIELD
+test3.exe

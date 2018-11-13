@@ -1,0 +1,5 @@
+12
+CALCULATE 8
+IO 2
+YIELD
+test2.exe

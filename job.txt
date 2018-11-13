@@ -1,0 +1,5 @@
+48
+CALCULATE 3
+IO 34
+YIELD
+test.exe
