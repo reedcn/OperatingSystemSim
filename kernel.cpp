@@ -13,6 +13,7 @@ Operating System Simulator*/
 #include <fstream>
 
 #include "pcb.h"
+#include "schedule.h"
 
 using namespace std;
 
@@ -55,6 +56,7 @@ void createNewProcess(int mem, string nameProcess, int burst, int arrivalNo, int
 	pid_t pid = fork();
 	int wpid, status;
 	ProcessControlBlock p;
+	Schedule s;
 		if ( pid < 0 ) {
 			printf("Fork failed.\n");
 			exit(0);
@@ -66,17 +68,17 @@ void createNewProcess(int mem, string nameProcess, int burst, int arrivalNo, int
 			
 			cout << "\n Exit Status: " << status;
 		} else {
-			p.addQuantum(q);
+			//p.addQuantum(q);
 			p.addNewProcess(1, getpid(), burst, arrivalNo, nameProcess);			
-			p.moveQueue(getpid());
+			//p.moveQueue(getpid());
 			p.outInfo();
 			
 			//execl(name, charTokenArray);
 			p.updateProcess(2);
-			p.moveQueue(getpid());
+			//p.moveQueue(getpid());
 			p.outInfo();
-			p.roundRobinScheduler();
-			
+			//p.roundRobinScheduler();
+			s.outInfoSched();
 			
 		}
 		
