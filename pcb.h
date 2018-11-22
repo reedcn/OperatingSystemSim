@@ -14,13 +14,9 @@ Operating System Simulator*/
 
 #define SIZE 1000
 
-//#include "pcb.h"
-//#include "schedule.h"
-
 
 class ProcessControlBlock {
 	private:
-		//Schedule s;
 		int processState;
 		int processId;
 		std::string *programCounter;
@@ -38,26 +34,25 @@ class ProcessControlBlock {
 			name = ".exe";
 		}
 
-		addNewProcess(int pState, int pId,int c, int arrivalNo, std::string nameProcess) {
+		addNewProcess(int pState, int pId) {
 			processState = pState;
 			processId = pId;
-			cycles = c;
-			arrival = arrivalNo;
-			name = nameProcess;
 			
 		}
-		updateProcess(int pState) {
-			processState = pState;
-		}
+		
+		getArrivalNo(int pId);
+		getCycles(int pId);
+		getState(int pId);
+		
+		readFile(std::string fileName, int pId, int arrivalNo);
+		tokenize(std::string tokens[], int row);
+		
+		updateProcess(int pid, int pState);
 		
 		updateCycles(int burst) {
 			cycles = burst;
 		}
 		
-		getArrivalNo(int pId);
-		getCycles(int pId);
-		
 		outInfo();
 		
-			
 };

@@ -27,11 +27,16 @@ class Schedule {
 		int processState;
 		int processId;
 		int arrival;
+		
+		int totalMem;
+		int usedMem;
 
 	public:
 		Schedule() {
 			quantum = 0;
 			currentProcess = 0;
+			totalMem = 2048;
+			usedMem = 0;
 			
 		}
 		
@@ -39,14 +44,15 @@ class Schedule {
 			quantum = q;
 		}
 		
-		moveQueue(int pId);
-		printQueue(std::queue<int> q);
 		getQueues();
+		getArrivalNo(int pId);
+		getMemory();
+		
+		moveQueue(int pId, int qNum);
+		printQueue(std::queue<int> q);
 		
 		roundRobinScheduler();
-		
 		dispatcher(int pId);
-		getArrivalNo(int pId);
 		
 		outInfoSched();
 		

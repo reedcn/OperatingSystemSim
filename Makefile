@@ -1,7 +1,10 @@
-pcb: kernel.o pcb.o schedule.o
-	g++ -o kernel kernel.o pcb.o schedule.o
+pcb: main.o kernel.o pcb.o schedule.o
+	g++ -o run main.o kernel.o pcb.o schedule.o
 	
-kernel.o: kernel.cpp pcb.h
+main.o: main.cpp kernel.h
+	g++ -c main.cpp
+	
+kernel.o: kernel.cpp kernel.h
 	g++ -c kernel.cpp
 	
 pcb.o: pcb.cpp pcb.h
@@ -9,6 +12,7 @@ pcb.o: pcb.cpp pcb.h
 	
 schedule.o: schedule.cpp schedule.h
 	g++ -c schedule.cpp
+
 	
 clean:
 	rm *.o kernel

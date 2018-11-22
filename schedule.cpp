@@ -13,28 +13,30 @@ Operating System Simulator*/
 
 #include "pcb.h"
 #include "schedule.h"
+#include "kernel.h"
+
 using namespace std;
 
 int Schedule::printQueue(queue<int> q) {
 	queue<int> que = q;
 	
 	while(!que.empty()) {
-		cout << que.front();
+		cout << que.front() << " ";
 		que.pop();
 	}
 	cout << "\n";
 	return 0;
 }
 
-int Schedule::moveQueue(int pId) {
-		if (processState == 1) {
-			jobQueue.push(processId);
+int Schedule::moveQueue(int pId, int qNum) {
+		if (qNum == 1) {
+			jobQueue.push(pId);
 			cout << "Moving to job queue\n";
-		} else if (processState == 2) {
-			readyQueue.push(processId);
+		} else if (qNum == 2) {
+			readyQueue.push(pId);
 			cout << "Moving to ready queue\n";
-		} else if (processState == 3) {
-			deviceQueue.push(processId);
+		} else if (qNum == 3) {
+			deviceQueue.push(pId);
 			cout << "Moving to device queue\n";
 		} else {
 			cout << "Burst finished, child process now exiting\n";
@@ -67,20 +69,18 @@ int Schedule::roundRobinScheduler() {
 	int index;
 	cout << "Q: ";
 	printQueue(readyQueue);
-	//cout << "arrivalNo: " << arrival;
 	for (i = 0; i < size; i++) {
 		temp = readyQueue.front();
 		readyProcesses[i] = temp;
 		cout << readyProcesses[i];
 		readyQueue.pop();
 		arrivalOrder[i] = p.getArrivalNo(readyProcesses[i]);
-		//cout << "arrival order: " << readyProcesses[i]  << ": "<< arrivalOrder[i] << "\n";
 			if (arrival < minArrival) {
 				minArrival = arrival;
 				index = i;
 			} 
 	}
-	cout << "ROUND ROBIN: " << minArrival;
+	cout << "ROUND ROBIN: " << minArrival << endl;
 
 	dispatcher(readyProcesses[index]);
 	
@@ -91,6 +91,7 @@ int Schedule::roundRobinScheduler() {
 
 	return 0;
 }
+
 
 int Schedule::getQueues() {
 	
@@ -110,16 +111,20 @@ int Schedule::getQueues() {
 
 int Schedule::dispatcher(int pId) {
 	int burst; 
-	p.updateProcess(3);
+	p.updateProcess(pId,3);
 	burst = p.getCycles(pId);
 	cout << "Burst was " << burst << "\n";
 	burst -= quantum;
 	cout << "Burst is now " << burst << "\n";
 	p.updateCycles(burst);
 		if (burst <= 0) {
-			p.updateProcess(5);
-			moveQueue(pId);
+			p.updateProcess(pId, 5);
+			moveQueue(pId,5);
 		}
 		
 	return 0;
+}
+
+int Schedule::getMemory() {
+	return totalMem - usedMem;
 }
