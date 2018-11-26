@@ -28,7 +28,7 @@ int Schedule::printQueue(queue<int> q) {
 	return 0;
 }
 
-int Schedule::moveQueue(int pId, int qNum) {
+/*int Schedule::moveQueue(int pId, int qNum) {
 		if (qNum == 1) {
 			jobQueue.push(pId);
 			cout << "Moving to job queue\n";
@@ -42,6 +42,21 @@ int Schedule::moveQueue(int pId, int qNum) {
 			cout << "Burst finished, child process now exiting\n";
 			exit(1);
 		}
+		return 0;
+}*/
+
+int Schedule::enterJobQueue(int pId) {
+		jobQueue.push(pId);
+		return 0;
+}
+
+int Schedule::enterReadyQueue(int pId) {
+		readyQueue.push(pId);
+		return 0;
+}
+
+int Schedule::enterDeviceQueue(int pId) {
+		deviceQueue.push(pId);
 		return 0;
 }
 
@@ -119,7 +134,7 @@ int Schedule::dispatcher(int pId) {
 	p.updateCycles(burst);
 		if (burst <= 0) {
 			p.updateProcess(pId, 5);
-			moveQueue(pId,5);
+			//moveQueue(pId,5);
 		}
 		
 	return 0;

@@ -33,6 +33,7 @@ int Kernel::createNewProcess(string fileName, int arrivalNo) {
 			
 			cout << "\n Exit Status: " << status;
 		} else {
+			s.enterJobQueue(getpid());
 			mem = s.getMemory();
 			cout << "mem: " << mem;
 			p.addNewProcess(1, getpid());
@@ -41,18 +42,24 @@ int Kernel::createNewProcess(string fileName, int arrivalNo) {
 			int *allocPMem = new int(pMem);
 			//cout << "allocMem: " << *allocMem << "allocPMem: " <<  *allocPMem;
 			if (*allocMem > *allocPMem) {
-				cout << "Memory available, moving to ready queue...\n";
+				cout << "Memory available...\n";
 				p.updateProcess(getpid(), 2);
 				cout << "State: " << p.getState(getpid());
+				if (p.getState(getpid()) == 2) {
+						s.enterReadyQueue(getpid());
+					cout << "Moving to ready queue\n";
+				}
 				int usedMemory = mem - pMem;
 				s.updateMem(usedMemory);
 
 			} else {
 				cout << "Not enough memory, moving process to waiting queue...\n";
 				p.updateProcess(getpid(), 4);
+				s.enterDeviceQueue(getpid());
 			}
 
 			p.outInfo();
+			s.getQueues();
 			free(allocMem);
 			free(allocPMem);
 		}

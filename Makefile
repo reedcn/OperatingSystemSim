@@ -1,4 +1,4 @@
-pcb: main.o kernel.o pcb.o schedule.o
+run: main.o kernel.o pcb.o schedule.o
 	g++ -o run main.o kernel.o pcb.o schedule.o
 	
 main.o: main.cpp kernel.h
@@ -15,4 +15,4 @@ schedule.o: schedule.cpp schedule.h
 
 	
 clean:
-	rm *.o kernel
+	rm *.o run

@@ -49,7 +49,10 @@ class Schedule {
 		getMemory();
 		updateMem(int usedMem);
 		
-		moveQueue(int pId, int qNum);
+		enterJobQueue(int pId);
+		enterReadyQueue(int pId);
+		enterDeviceQueue(int pId);
+		
 		printQueue(std::queue<int> q);
 		
 		roundRobinScheduler();

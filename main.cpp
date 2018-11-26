@@ -58,10 +58,10 @@ int main(int argc, char **argv) {
 			inFile.close();
 			pid = k.createNewProcess(fileName, arrivalNo);
 			cout << "Pid: " << pid;
-			s.moveQueue(pid, 1);
+			//s.enterJobQueue(pid);
 
-			s.moveQueue(pid, 2);
-			s.getQueues();
+			//s.moveQueue(pid, 2);
+			//s.getQueues();
 
 			arrivalNo++;
 
