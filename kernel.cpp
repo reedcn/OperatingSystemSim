@@ -18,6 +18,7 @@ Operating System Simulator*/
 
 using namespace std;
 
+
 int Kernel::createNewProcess(string fileName, int arrivalNo) {
 	pid_t pid = fork();
 
@@ -33,13 +34,18 @@ int Kernel::createNewProcess(string fileName, int arrivalNo) {
 			cout << "\n Exit Status: " << status;
 		} else {
 			mem = s.getMemory();
+			cout << "mem: " << mem;
 			p.addNewProcess(1, getpid());
 			pMem = p.readFile(fileName, getpid(), arrivalNo);
-			
-			if (mem > pMem) {
+			int *allocMem = new int(mem);
+			int *allocPMem = new int(pMem);
+			//cout << "allocMem: " << *allocMem << "allocPMem: " <<  *allocPMem;
+			if (*allocMem > *allocPMem) {
 				cout << "Memory available, moving to ready queue...\n";
 				p.updateProcess(getpid(), 2);
 				cout << "State: " << p.getState(getpid());
+				int usedMemory = mem - pMem;
+				s.updateMem(usedMemory);
 
 			} else {
 				cout << "Not enough memory, moving process to waiting queue...\n";
@@ -47,7 +53,8 @@ int Kernel::createNewProcess(string fileName, int arrivalNo) {
 			}
 
 			p.outInfo();
-			
+			free(allocMem);
+			free(allocPMem);
 		}
 		
 		return getpid();

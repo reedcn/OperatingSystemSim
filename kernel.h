@@ -22,6 +22,7 @@ class Kernel {
 		int wpid, status;
 		int mem;
 		int pMem;
+		int usedMem;
 	
 	public:
 		Kernel() {

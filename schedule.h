@@ -47,6 +47,7 @@ class Schedule {
 		getQueues();
 		getArrivalNo(int pId);
 		getMemory();
+		updateMem(int usedMem);
 		
 		moveQueue(int pId, int qNum);
 		printQueue(std::queue<int> q);

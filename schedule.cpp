@@ -126,5 +126,10 @@ int Schedule::dispatcher(int pId) {
 }
 
 int Schedule::getMemory() {
-	return totalMem - usedMem;
+	return totalMem;
+}
+
+int Schedule::updateMem(int usedMemory) {
+	totalMem = usedMemory;
+	return 0;
 }
