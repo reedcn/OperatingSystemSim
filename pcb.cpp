@@ -39,10 +39,8 @@ int ProcessControlBlock::outInfo() {
 		<< "//Location of next instruction: " << programCounter << "\n"
 		<< "//Cycles/Burst: " << cycles << "\n"
 		<< "//Current Queue: " << q << "\n"
-		<< "//Arrival Time: " << arrival << "\n"
 		<< "//Process name: " << name << "\n"
 		<< "///////////////////////////////////////////////////////////////////" << "\n" << "\n";
-		//cout << "ARRIVAL IS " << arrival << " FOR PROCESS " << pId; 
 	return 0;
 }
 
@@ -50,14 +48,6 @@ int ProcessControlBlock::getCycles(int pId) {
 	return cycles;
 }
 
-
-int ProcessControlBlock::getArrivalNo(int pId) {
-	if (pId == processId) {
-		cout << "ARRIVAL IS " << arrival << " FOR PROCESS " << processId; 
-		return arrival;
-	}
-	return 0;
-}
 
 int ProcessControlBlock::updateProcess(int pId, int pState) {
 	processState = pState;
@@ -69,6 +59,7 @@ int ProcessControlBlock::getState(int pId) {
 }
 
 int ProcessControlBlock::tokenize(string tokens[], int row) {
+	//std::vector<std::string> token_vector;
 	int i  = 0;
 	string token;
 	string token2;
@@ -89,20 +80,29 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 		}
 		tokenArray[i] = token;
 		tokenArray2[i] = token2;
-		cout << tokenArray[i] << "\n";
-		cout << tokenArray2[i] << "\n";
+		
+		//tokenArrClass[i] = tokenArray[i];
+		//tokenArrClass2[i] = tokenArray2[i];
+		
+		//token_vector.push_back(tokenArray[i]);
+		//token_vector.push_back(tokenArray2[i]);
+		//cout << "tkv: " << token_vector[i] << endl;
+		//tokenArrClass[i] = tokenArray[i];
+		//tokenArrClass2[i] = tokenArray2[i];
+		
+		//cout << tokenArray[i] << endl << tokenArray2[i] << endl;
 	}
 	
 	cycles = tokenArray2[0];
 	c = atoi(cycles.c_str());
-	cout << "cycles: " << c;
+	//cout << "cycles: " << c;
 	
 	
 	return c;
 }
 
 
-int ProcessControlBlock::readFile(string fileName, int pId, int arrivalNo) {
+int ProcessControlBlock::readFile(string fileName, int pId) {
 
 	string command = "";
 	string memoryString = "";
@@ -122,16 +122,24 @@ int ProcessControlBlock::readFile(string fileName, int pId, int arrivalNo) {
 		row++;
 
 	}
+	//rowsLeft = row;
 	
 	name = tokens[row-1];
 
 	cycles = tokenize(tokens, row);
 	processId = pId;
-	arrival = arrivalNo;
-	//cout << "cycles: " << getCycles(pId);
 	updateCycles(cycles);
 	outInfo();
-	//cout << "cycles: " << getCycles(getpid());
 	return mem;
 }
 
+int ProcessControlBlock::executeProcess(int pId) {
+	int i = 0;
+	//vector<string>  token_vector;
+	for (i = 0; i < rowsLeft; i++) {
+		cout << tokenArray[i] << endl << tokenArray2[i] << endl;
+		//token_vector.push_back(tokenArrClass[i]);
+		//token_vector.push_back(tokenArrClass2[i]);
+		//cout << token_vector[i] << endl;
+	}
+}

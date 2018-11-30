@@ -22,8 +22,16 @@ class ProcessControlBlock {
 		std::string *programCounter;
 		int cycles;
 		std::string q;
-		int arrival;
 		std::string name;
+		
+		std::string tokenArray[SIZE];
+		std::string tokenArray2[SIZE];
+		
+		//std::string tokenArrClass[SIZE];
+		//std::string tokenArrClass2[SIZE];
+		//std::vector<std::string> token_vector;
+		
+		int rowsLeft;
 
 	public:
 		ProcessControlBlock() {
@@ -32,7 +40,6 @@ class ProcessControlBlock {
 			std::string programCounter = "None";
 			q = "Job";
 			name = ".exe";
-			arrival = 9999;
 			cycles = 0;
 		}
 		
@@ -42,19 +49,16 @@ class ProcessControlBlock {
 			
 		}
 		
-		getArrivalNo(int pId);
 		getCycles(int pId);
 		getState(int pId);
 		
-		readFile(std::string fileName, int pId, int arrivalNo);
+		readFile(std::string fileName, int pId);
 		tokenize(std::string tokens[], int row);
+		executeProcess(int pId);
 		
 		updateProcess(int pid, int pState);
 		updateCycles(int b) {
 			cycles = b;
-		}
-		updateArrival(int a) {
-			arrival = a;
 		}
 		updateName(std::string n) {
 			name = n;

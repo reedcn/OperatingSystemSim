@@ -19,7 +19,7 @@ Operating System Simulator*/
 using namespace std;
 
 
-int Kernel::createNewProcess(string fileName, int arrivalNo, int q) {
+int Kernel::createNewProcess(string fileName, int q) {
 	pid_t pid = fork();
 
 		if ( pid < 0 ) {
@@ -36,49 +36,41 @@ int Kernel::createNewProcess(string fileName, int arrivalNo, int q) {
 			s.addQuantum(q);
 			s.enterJobQueue(getpid());
 			mem = s.getMemory();
-			cout << "mem: " << mem;
+			//cout << "mem: " << mem;
 			p.addNewProcess(1, getpid());
-			pMem = p.readFile(fileName, getpid(), arrivalNo);
+			pMem = p.readFile(fileName, getpid());
 			int *allocMem = new int(mem);
 			int *allocPMem = new int(pMem);
-			//cout << "allocMem: " << *allocMem << "allocPMem: " <<  *allocPMem;
 			if (*allocMem > *allocPMem) {
-				cout << "Memory available...\n";
+				//cout << "Memory available...\n";
 				p.updateProcess(getpid(), 2);
-				cout << "State: " << p.getState(getpid());
+				//cout << "State: " << p.getState(getpid());
 				if (p.getState(getpid()) == 2) {
 						s.enterReadyQueue(getpid());
-					cout << "Moving to ready queue\n";
+					//cout << "Moving to ready queue\n";
 				}
 				int usedMemory = mem - pMem;
 				s.updateMem(usedMemory);
-				cout << "Starting round robin scheduler" << endl;
+				//cout << "Starting round robin scheduler" << endl;
 				s.getQueues();		
 				current = s.roundRobinScheduler();
-				currentProcessCycles = p.getCycles(getpid());
+				if (current == getpid()) {
+					currentProcessCycles = p.getCycles(getpid());
+				}
 				s.dispatcher(current, currentProcessCycles);
 				
 
 			} else {
-				cout << "Not enough memory, moving process to waiting queue...\n";
+				//cout << "Not enough memory, moving process to waiting queue...\n";
 				p.updateProcess(getpid(), 4);
 				s.enterDeviceQueue(getpid());
 			}
 
-			//p.outInfo();
-			//cout << "Starting round robin scheduler" << endl;
-							
-			//current = s.roundRobinScheduler();
-			//s.outInfoSched();
-			//s.dispatcher(current);
 
-			
-			//p.readFile(fileName, getpid(), arrivalNo);
 			//free(allocMem);
 			//free(allocPMem);
 		}
 		
-		//cout << "pid: " << getpid();
 		return getpid();
 		
 

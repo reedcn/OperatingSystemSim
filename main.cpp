@@ -42,8 +42,6 @@ int main(int argc, char **argv) {
 	getline(cin,quantum);
 	q = atoi(quantum.c_str());
 	
-	//s.addQuantum(q);
-	//s.outInfoSched();
 
 	while (1) {
 		row = 0;
@@ -57,14 +55,8 @@ int main(int argc, char **argv) {
 			exit(1);
 		} else{
 			inFile.close();
-			pid = k.createNewProcess(fileName, arrivalNo,q);
-			//cout << "Starting round robin scheduler" << endl;
-			//cout << "HELLO??? " << p.getArrivalNo(pid) << " "<< pid;
-			//s.roundRobinScheduler();
-			//cout << "Starting round robin scheduler" << endl;
-							
-			//current = s.roundRobinScheduler();
-			//s.dispatcher(current);
+			pid = k.createNewProcess(fileName,q);
+
 			arrivalNo++;
 
 			inFile.close();

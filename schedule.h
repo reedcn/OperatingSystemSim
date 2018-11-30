@@ -26,7 +26,7 @@ class Schedule {
 		
 		int processState;
 		int processId;
-		int arrival;
+
 		
 		int totalMem;
 		int usedMem;

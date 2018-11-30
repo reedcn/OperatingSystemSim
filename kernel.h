@@ -30,6 +30,6 @@ class Kernel {
 		Kernel() {
 		}
 		
-		int createNewProcess(std::string fileName, int arrivalNo, int q);
+		int createNewProcess(std::string fileName, int q);
 		
 };
