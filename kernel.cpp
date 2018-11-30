@@ -19,20 +19,21 @@ Operating System Simulator*/
 using namespace std;
 
 
-int Kernel::createNewProcess(string fileName, int arrivalNo) {
+int Kernel::createNewProcess(string fileName, int arrivalNo, int q) {
 	pid_t pid = fork();
 
 		if ( pid < 0 ) {
 			printf("Fork failed.\n");
 			exit(0);
 		} else if ( pid > 0 ) {
-
+				
 			do {
 				wpid = wait(&status); // wpid
 			} while (!WIFEXITED(status));
 			
 			cout << "\n Exit Status: " << status;
 		} else {
+			s.addQuantum(q);
 			s.enterJobQueue(getpid());
 			mem = s.getMemory();
 			cout << "mem: " << mem;
@@ -51,6 +52,12 @@ int Kernel::createNewProcess(string fileName, int arrivalNo) {
 				}
 				int usedMemory = mem - pMem;
 				s.updateMem(usedMemory);
+				cout << "Starting round robin scheduler" << endl;
+				s.getQueues();		
+				current = s.roundRobinScheduler();
+				currentProcessCycles = p.getCycles(getpid());
+				s.dispatcher(current, currentProcessCycles);
+				
 
 			} else {
 				cout << "Not enough memory, moving process to waiting queue...\n";
@@ -58,12 +65,20 @@ int Kernel::createNewProcess(string fileName, int arrivalNo) {
 				s.enterDeviceQueue(getpid());
 			}
 
-			p.outInfo();
-			s.getQueues();
-			free(allocMem);
-			free(allocPMem);
+			//p.outInfo();
+			//cout << "Starting round robin scheduler" << endl;
+							
+			//current = s.roundRobinScheduler();
+			//s.outInfoSched();
+			//s.dispatcher(current);
+
+			
+			//p.readFile(fileName, getpid(), arrivalNo);
+			//free(allocMem);
+			//free(allocPMem);
 		}
 		
+		//cout << "pid: " << getpid();
 		return getpid();
 		
 

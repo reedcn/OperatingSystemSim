@@ -42,7 +42,7 @@ int ProcessControlBlock::outInfo() {
 		<< "//Arrival Time: " << arrival << "\n"
 		<< "//Process name: " << name << "\n"
 		<< "///////////////////////////////////////////////////////////////////" << "\n" << "\n";
-		
+		//cout << "ARRIVAL IS " << arrival << " FOR PROCESS " << pId; 
 	return 0;
 }
 
@@ -53,6 +53,7 @@ int ProcessControlBlock::getCycles(int pId) {
 
 int ProcessControlBlock::getArrivalNo(int pId) {
 	if (pId == processId) {
+		cout << "ARRIVAL IS " << arrival << " FOR PROCESS " << processId; 
 		return arrival;
 	}
 	return 0;
@@ -94,9 +95,12 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 	
 	cycles = tokenArray2[0];
 	c = atoi(cycles.c_str());
-
+	cout << "cycles: " << c;
+	
+	
 	return c;
 }
+
 
 int ProcessControlBlock::readFile(string fileName, int pId, int arrivalNo) {
 
@@ -124,6 +128,10 @@ int ProcessControlBlock::readFile(string fileName, int pId, int arrivalNo) {
 	cycles = tokenize(tokens, row);
 	processId = pId;
 	arrival = arrivalNo;
-	
+	//cout << "cycles: " << getCycles(pId);
+	updateCycles(cycles);
+	outInfo();
+	//cout << "cycles: " << getCycles(getpid());
 	return mem;
 }
+

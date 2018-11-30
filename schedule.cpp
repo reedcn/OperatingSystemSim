@@ -73,38 +73,11 @@ int Schedule::outInfoSched() {
 }
 
 int Schedule::roundRobinScheduler() {
-	int i;
-	int size;
-	size = readyQueue.size();
-	int readyProcesses[size];
-	int burstTimes[size];
-	int arrivalOrder[100];
-	int temp;
-	int minArrival = 1;
-	int index;
-	cout << "Q: ";
-	printQueue(readyQueue);
-	for (i = 0; i < size; i++) {
-		temp = readyQueue.front();
-		readyProcesses[i] = temp;
-		cout << readyProcesses[i];
-		readyQueue.pop();
-		arrivalOrder[i] = p.getArrivalNo(readyProcesses[i]);
-			if (arrival < minArrival) {
-				minArrival = arrival;
-				index = i;
-			} 
-	}
-	cout << "ROUND ROBIN: " << minArrival << endl;
-
-	dispatcher(readyProcesses[index]);
-	
-	for (i = 0; i < size; i++) {
-		temp = readyProcesses[i];
-		readyQueue.push(temp);
-	}
-
-	return 0;
+int selectedProcess = 0;
+			
+selectedProcess = readyQueue.front();
+cout << "Process selected: " << readyQueue.front() << endl;
+	return selectedProcess;
 }
 
 
@@ -124,12 +97,15 @@ int Schedule::getQueues() {
 	return 0;
 }
 
-int Schedule::dispatcher(int pId) {
-	int burst; 
+int Schedule::dispatcher(int pId, int currentProcessCycles) {
+	updateCurrentProcess(pId);
+	outInfoSched();
+	//p.readFile(fileName, getpid(), arrivalNo);
+	burst = currentProcessCycles;
 	p.updateProcess(pId,3);
-	burst = p.getCycles(pId);
 	cout << "Burst was " << burst << "\n";
-	burst -= quantum;
+	burst -= getQuantum();
+	cout << "quantum is now: " << quantum;
 	cout << "Burst is now " << burst << "\n";
 	p.updateCycles(burst);
 		if (burst <= 0) {
@@ -147,4 +123,9 @@ int Schedule::getMemory() {
 int Schedule::updateMem(int usedMemory) {
 	totalMem = usedMemory;
 	return 0;
+}
+
+
+int Schedule::getQuantum() {
+	return quantum;
 }

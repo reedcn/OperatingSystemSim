@@ -23,11 +23,13 @@ class Kernel {
 		int mem;
 		int pMem;
 		int usedMem;
+		int current;
+		int currentProcessCycles;
 	
 	public:
 		Kernel() {
 		}
 		
-		int createNewProcess(std::string fileName, int arrivalNo);
+		int createNewProcess(std::string fileName, int arrivalNo, int q);
 		
 };

@@ -30,6 +30,7 @@ class Schedule {
 		
 		int totalMem;
 		int usedMem;
+		int burst;
 
 	public:
 		Schedule() {
@@ -44,10 +45,13 @@ class Schedule {
 			quantum = q;
 		}
 		
+		getQuantum();
 		getQueues();
-		getArrivalNo(int pId);
 		getMemory();
 		updateMem(int usedMem);
+		updateCurrentProcess(int pId) {
+			currentProcess = pId;
+		}
 		
 		enterJobQueue(int pId);
 		enterReadyQueue(int pId);
@@ -56,7 +60,7 @@ class Schedule {
 		printQueue(std::queue<int> q);
 		
 		roundRobinScheduler();
-		dispatcher(int pId);
+		dispatcher(int pId, int currentProcessCycles);
 		
 		outInfoSched();
 		

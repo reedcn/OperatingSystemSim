@@ -32,8 +32,10 @@ class ProcessControlBlock {
 			std::string programCounter = "None";
 			q = "Job";
 			name = ".exe";
+			arrival = 9999;
+			cycles = 0;
 		}
-
+		
 		addNewProcess(int pState, int pId) {
 			processState = pState;
 			processId = pId;
@@ -48,9 +50,14 @@ class ProcessControlBlock {
 		tokenize(std::string tokens[], int row);
 		
 		updateProcess(int pid, int pState);
-		
-		updateCycles(int burst) {
-			cycles = burst;
+		updateCycles(int b) {
+			cycles = b;
+		}
+		updateArrival(int a) {
+			arrival = a;
+		}
+		updateName(std::string n) {
+			name = n;
 		}
 		
 		outInfo();
