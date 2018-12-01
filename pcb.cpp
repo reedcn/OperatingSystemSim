@@ -10,6 +10,8 @@ Operating System Simulator*/
 #include <sys/wait.h>
 #include <unistd.h>
 #include <queue>
+#include <time.h>
+#include <stdlib.h>
 
 #include "pcb.h"
 #include "schedule.h"
@@ -38,7 +40,6 @@ int ProcessControlBlock::outInfo() {
 		<< "//Process ID: " << processId << "\n"
 		<< "//Location of next instruction: " << programCounter << "\n"
 		<< "//Cycles/Burst: " << cycles << "\n"
-		<< "//Current Queue: " << q << "\n"
 		<< "//Process name: " << name << "\n"
 		<< "///////////////////////////////////////////////////////////////////" << "\n" << "\n";
 	return 0;
@@ -49,16 +50,16 @@ int ProcessControlBlock::getCycles(int pId) {
 }
 
 
-int ProcessControlBlock::updateProcess(int pId, int pState) {
+/*int ProcessControlBlock::updateProcess(int pId, int pState) {
 	processState = pState;
 	return 0;
-}
+}*/
 
 int ProcessControlBlock::getState(int pId) {
 	return processState;
 }
 
-int ProcessControlBlock::tokenize(string tokens[], int row, int callNo) {
+int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
 	//std::vector<std::string> token_vector;
 	int i  = 0;
 	string token;
@@ -72,6 +73,8 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo) {
 	int c = 0;
 	string s;
 	string s2;
+	int randomNo;
+	static const size_t npos = -1;
 	
 	for (i = 0; i < row; i++) {
 
@@ -100,30 +103,72 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo) {
 		
 		//cout << tokenQueue.front();
 	}
-	if (callNo == 2) {
+/* 	if (callNo == 2) {
 		tokenArrClass = tokenArray;
 		tokenArrClass2 = tokenArray2;
-		for (i = 0; i < row; i++) {
+		updateProcess(getpid(), 3);
+		for (i = 0; i < q; i++) {
 			s = *(tokenArrClass + i);
 			s2 = *(tokenArrClass2 + i);
 			
 			if (s.compare("CALCULATE") == 0) {
-				cout << "calc";
+				cout << "calc" << endl;
 				cycles = s2;
 				c = atoi(cycles.c_str());
-				cout << "cycles: " << c;
 			} else if (s.compare("IO") == 0) {
-				cout << "io";
-			} else if (s.find("YIELD")) {
-				cout << "yield";
+				cout << "io" << endl;
+				updateProcess(getpid(), 4);
+			}else if (s.find("IO") != npos) {
+				cout << "io" << endl;
+				srand(time(NULL));
+				randomNo = rand() % 25 + 25;
+				updateProcess(getpid(), 4);
+			} else if (s.find("YIELD") != npos) {
+				cout << "yield" << endl;
+				break;
+			} else if (s.find("OUT") != npos) {
+				cout << "out" << endl;
+				outInfo();
+			}
+			//cout << s << endl;
+			//cout << s2 << endl;
+		}
+	} */
+	
+	cycles = tokenArray2[0];
+	c = atoi(cycles.c_str());
+	
+	if (callNo == 2) {
+		tokenArrClass = tokenArray;
+		tokenArrClass2 = tokenArray2;
+		updateProcess(getpid(), 3);
+		for (i = 0; i < q; i++) {
+			s = *(tokenArrClass + i);
+			s2 = *(tokenArrClass2 + i);
+			
+			if (s.compare("CALCULATE") == 0) {
+				cout << "calc" << endl;
+				cycles = s2;
+				c = atoi(cycles.c_str());
+			} else if (s.compare("IO") == 0) {
+				cout << "io" << endl;
+				updateProcess(getpid(), 4);
+			}else if (s.find("IO") != npos) {
+				cout << "io" << endl;
+				srand(time(NULL));
+				randomNo = rand() % 25 + 25;
+				updateProcess(getpid(), 4);
+			} else if (s.find("YIELD") != npos) {
+				cout << "yield" << endl;
+				break;
+			} else if (s.find("OUT") != npos) {
+				cout << "out" << endl;
+				outInfo();
 			}
 			//cout << s << endl;
 			//cout << s2 << endl;
 		}
 	}
-	
-	cycles = tokenArray2[0];
-	c = atoi(cycles.c_str());
 	//cout << "cycles: " << c;
 	
 	
@@ -131,7 +176,7 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo) {
 }
 
 
-int ProcessControlBlock::readFile(string fileName, int pId, int callNo) {
+int ProcessControlBlock::readFile(string fileName, int pId, int callNo, int q) {
 
 	string command = "";
 	string memoryString = "";
@@ -155,7 +200,7 @@ int ProcessControlBlock::readFile(string fileName, int pId, int callNo) {
 	
 	name = tokens[row-1];
 
-	cycles = tokenize(tokens, row, callNo);
+	cycles = tokenize(tokens, row, callNo, q);
 	processId = pId;
 	updateCycles(cycles);
 	//outInfo();

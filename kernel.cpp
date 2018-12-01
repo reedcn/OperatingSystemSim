@@ -38,7 +38,7 @@ int Kernel::createNewProcess(string fileName, int q) {
 			mem = s.getMemory();
 			//cout << "mem: " << mem;
 			p.addNewProcess(1, getpid());
-			pMem = p.readFile(fileName, getpid(), 1);
+			pMem = p.readFile(fileName, getpid(), 1, q);
 			int *allocMem = new int(mem);
 			int *allocPMem = new int(pMem);
 			if (*allocMem > *allocPMem) {
@@ -59,7 +59,7 @@ int Kernel::createNewProcess(string fileName, int q) {
 					currentProcessCycles = p.getCycles(getpid());
 				}
 				s.dispatcher(current, currentProcessCycles);
-				p.readFile(fileName, getpid(), 2);
+				p.readFile(fileName, getpid(), 2, q);
 
 			} else {
 				//cout << "Not enough memory, moving process to waiting queue...\n";

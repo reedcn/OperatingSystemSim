@@ -21,7 +21,6 @@ class ProcessControlBlock {
 		int processId;
 		std::string *programCounter;
 		int cycles;
-		std::string q;
 		std::string name;
 		//int quantum;
 		
@@ -41,7 +40,6 @@ class ProcessControlBlock {
 			processState = 0;
 			processId = 0;
 			std::string programCounter = "None";
-			q = "Job";
 			name = ".exe";
 			cycles = 0;
 		}
@@ -55,11 +53,13 @@ class ProcessControlBlock {
 		getCycles(int pId);
 		getState(int pId);
 		
-		readFile(std::string fileName, int pId, int callNo);
-		tokenize(std::string tokens[], int row, int callNo);
+		readFile(std::string fileName, int pId, int callNo, int q);
+		tokenize(std::string tokens[], int row, int callNo, int q);
 		//executeProcess(int pId);
 		
-		updateProcess(int pid, int pState);
+		updateProcess(int pid, int pState) {
+			processState = pState;
+		}
 		updateCycles(int b) {
 			cycles = b;
 		}
