@@ -67,6 +67,8 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 	string tokenArray2[SIZE];
 	string delimiter = " ";
 	string cycles;
+	tokenArrClass = new string[SIZE];
+	tokenArrClass2 = new string[SIZE];
 	int c = 0;
 	
 	for (i = 0; i < row; i++) {
@@ -95,6 +97,13 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 		//tokenArrClass2[i] = tokenArray2[i];
 		
 		//cout << tokenQueue.front();
+	}
+	tokenArrClass = tokenArray;
+	tokenArrClass2 = tokenArray2;
+	
+	for (i = 0; i < row; i++) {
+		cout << *(tokenArrClass + i) << endl;
+		cout << *(tokenArrClass2 + i) << endl;
 	}
 	
 	cycles = tokenArray2[0];

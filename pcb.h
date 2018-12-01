@@ -26,7 +26,8 @@ class ProcessControlBlock {
 		
 		//std::string tokenArray[SIZE];
 		//std::string tokenArray2[SIZE];
-		
+		std::string* tokenArrClass;
+		std::string* tokenArrClass2;
 		//std::string tokenArrClass[SIZE];
 		//std::string tokenArrClass2[SIZE];
 		//std::vector<std::string> token_vector;
