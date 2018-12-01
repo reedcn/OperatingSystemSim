@@ -58,7 +58,7 @@ int ProcessControlBlock::getState(int pId) {
 	return processState;
 }
 
-int ProcessControlBlock::tokenize(string tokens[], int row) {
+int ProcessControlBlock::tokenize(string tokens[], int row, int callNo) {
 	//std::vector<std::string> token_vector;
 	int i  = 0;
 	string token;
@@ -70,6 +70,8 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 	tokenArrClass = new string[SIZE];
 	tokenArrClass2 = new string[SIZE];
 	int c = 0;
+	string s;
+	string s2;
 	
 	for (i = 0; i < row; i++) {
 
@@ -98,12 +100,26 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 		
 		//cout << tokenQueue.front();
 	}
-	tokenArrClass = tokenArray;
-	tokenArrClass2 = tokenArray2;
-	
-	for (i = 0; i < row; i++) {
-		cout << *(tokenArrClass + i) << endl;
-		cout << *(tokenArrClass2 + i) << endl;
+	if (callNo == 2) {
+		tokenArrClass = tokenArray;
+		tokenArrClass2 = tokenArray2;
+		for (i = 0; i < row; i++) {
+			s = *(tokenArrClass + i);
+			s2 = *(tokenArrClass2 + i);
+			
+			if (s.compare("CALCULATE") == 0) {
+				cout << "calc";
+				cycles = s2;
+				c = atoi(cycles.c_str());
+				cout << "cycles: " << c;
+			} else if (s.compare("IO") == 0) {
+				cout << "io";
+			} else if (s.find("YIELD")) {
+				cout << "yield";
+			}
+			//cout << s << endl;
+			//cout << s2 << endl;
+		}
 	}
 	
 	cycles = tokenArray2[0];
@@ -115,7 +131,7 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 }
 
 
-int ProcessControlBlock::readFile(string fileName, int pId) {
+int ProcessControlBlock::readFile(string fileName, int pId, int callNo) {
 
 	string command = "";
 	string memoryString = "";
@@ -139,10 +155,10 @@ int ProcessControlBlock::readFile(string fileName, int pId) {
 	
 	name = tokens[row-1];
 
-	cycles = tokenize(tokens, row);
+	cycles = tokenize(tokens, row, callNo);
 	processId = pId;
 	updateCycles(cycles);
-	outInfo();
+	//outInfo();
 	return mem;
 }
 

@@ -23,6 +23,7 @@ class ProcessControlBlock {
 		int cycles;
 		std::string q;
 		std::string name;
+		//int quantum;
 		
 		//std::string tokenArray[SIZE];
 		//std::string tokenArray2[SIZE];
@@ -54,8 +55,8 @@ class ProcessControlBlock {
 		getCycles(int pId);
 		getState(int pId);
 		
-		readFile(std::string fileName, int pId);
-		tokenize(std::string tokens[], int row);
+		readFile(std::string fileName, int pId, int callNo);
+		tokenize(std::string tokens[], int row, int callNo);
 		//executeProcess(int pId);
 		
 		updateProcess(int pid, int pState);

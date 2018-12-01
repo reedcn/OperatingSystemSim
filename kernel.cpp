@@ -38,7 +38,7 @@ int Kernel::createNewProcess(string fileName, int q) {
 			mem = s.getMemory();
 			//cout << "mem: " << mem;
 			p.addNewProcess(1, getpid());
-			pMem = p.readFile(fileName, getpid());
+			pMem = p.readFile(fileName, getpid(), 1);
 			int *allocMem = new int(mem);
 			int *allocPMem = new int(pMem);
 			if (*allocMem > *allocPMem) {
@@ -47,11 +47,11 @@ int Kernel::createNewProcess(string fileName, int q) {
 				//cout << "State: " << p.getState(getpid());
 				if (p.getState(getpid()) == 2) {
 						s.enterReadyQueue(getpid());
-					//cout << "Moving to ready queue\n";
+					cout << "Moving to ready queue\n";
 				}
 				int usedMemory = mem - pMem;
 				s.updateMem(usedMemory);
-				//cout << "Starting round robin scheduler" << endl;
+				cout << "Starting round robin scheduler" << endl;
 				s.getQueues();
 
 				current = s.roundRobinScheduler();
@@ -59,7 +59,7 @@ int Kernel::createNewProcess(string fileName, int q) {
 					currentProcessCycles = p.getCycles(getpid());
 				}
 				s.dispatcher(current, currentProcessCycles);
-				
+				p.readFile(fileName, getpid(), 2);
 
 			} else {
 				//cout << "Not enough memory, moving process to waiting queue...\n";
