@@ -25,11 +25,12 @@ class Kernel {
 		int usedMem;
 		int current;
 		int currentProcessCycles;
-	
+
 	public:
 		Kernel() {
 		}
 		
 		int createNewProcess(std::string fileName, int q);
+		//void* runScheduler(void *test);
 		
 };

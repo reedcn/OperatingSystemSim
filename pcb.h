@@ -24,14 +24,15 @@ class ProcessControlBlock {
 		std::string q;
 		std::string name;
 		
-		std::string tokenArray[SIZE];
-		std::string tokenArray2[SIZE];
+		//std::string tokenArray[SIZE];
+		//std::string tokenArray2[SIZE];
 		
 		//std::string tokenArrClass[SIZE];
 		//std::string tokenArrClass2[SIZE];
 		//std::vector<std::string> token_vector;
+		//std::vector<std::string> tokenQueue;
 		
-		int rowsLeft;
+		//int rowsLeft;
 
 	public:
 		ProcessControlBlock() {
@@ -54,7 +55,7 @@ class ProcessControlBlock {
 		
 		readFile(std::string fileName, int pId);
 		tokenize(std::string tokens[], int row);
-		executeProcess(int pId);
+		//executeProcess(int pId);
 		
 		updateProcess(int pid, int pState);
 		updateCycles(int b) {

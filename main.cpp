@@ -21,6 +21,13 @@ using namespace std;
 #define ARGU 2
 #define SIZE 1000
 
+void* continueScheduler(void *test) {
+	Schedule s;
+		s.roundRobinScheduler();
+		
+		pthread_exit(NULL);
+}
+
 int main(int argc, char **argv) {
 	string str = "\nOS >";
 	string fileName;
@@ -30,11 +37,12 @@ int main(int argc, char **argv) {
 	Schedule s;
 	Kernel k;
 	
+	pthread_t thread;
+	
 	ifstream inFile;
 
 	int row;
 	int q = 0;
-	int arrivalNo = 0;
 	int pid = 0;
 	int current = 0;
 	
@@ -54,10 +62,8 @@ int main(int argc, char **argv) {
 			cerr << "Unable to open file";
 			exit(1);
 		} else{
-			inFile.close();
 			pid = k.createNewProcess(fileName,q);
-
-			arrivalNo++;
+			//pthread_create(&thread, NULL, continueScheduler, NULL);
 
 			inFile.close();
 		}

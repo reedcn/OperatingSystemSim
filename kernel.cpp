@@ -11,13 +11,13 @@ Operating System Simulator*/
 #include <unistd.h>
 #include <queue>
 #include <fstream>
+#include <pthread.h>
 
 #include "pcb.h"
 #include "schedule.h"
 #include "kernel.h"
 
 using namespace std;
-
 
 int Kernel::createNewProcess(string fileName, int q) {
 	pid_t pid = fork();
@@ -52,7 +52,8 @@ int Kernel::createNewProcess(string fileName, int q) {
 				int usedMemory = mem - pMem;
 				s.updateMem(usedMemory);
 				//cout << "Starting round robin scheduler" << endl;
-				s.getQueues();		
+				s.getQueues();
+
 				current = s.roundRobinScheduler();
 				if (current == getpid()) {
 					currentProcessCycles = p.getCycles(getpid());

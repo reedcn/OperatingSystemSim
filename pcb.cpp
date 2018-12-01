@@ -82,6 +82,10 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 		tokenArray2[i] = token2;
 		
 		//tokenArrClass[i] = tokenArray[i];
+		
+		//tokenQueue.push_back(tokenArray[i]);
+		
+		//tokenArrClass[i] = tokenArray[i];
 		//tokenArrClass2[i] = tokenArray2[i];
 		
 		//token_vector.push_back(tokenArray[i]);
@@ -90,7 +94,7 @@ int ProcessControlBlock::tokenize(string tokens[], int row) {
 		//tokenArrClass[i] = tokenArray[i];
 		//tokenArrClass2[i] = tokenArray2[i];
 		
-		//cout << tokenArray[i] << endl << tokenArray2[i] << endl;
+		//cout << tokenQueue.front();
 	}
 	
 	cycles = tokenArray2[0];
@@ -133,7 +137,7 @@ int ProcessControlBlock::readFile(string fileName, int pId) {
 	return mem;
 }
 
-int ProcessControlBlock::executeProcess(int pId) {
+/*int ProcessControlBlock::executeProcess(int pId) {
 	int i = 0;
 	//vector<string>  token_vector;
 	for (i = 0; i < rowsLeft; i++) {
@@ -142,4 +146,4 @@ int ProcessControlBlock::executeProcess(int pId) {
 		//token_vector.push_back(tokenArrClass2[i]);
 		//cout << token_vector[i] << endl;
 	}
-}
+}*/
