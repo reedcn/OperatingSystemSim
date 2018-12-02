@@ -16,6 +16,7 @@
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QProcess>
 #include <QFile>
 #include <QTextStream>
 #include <QMessageBox>
@@ -46,6 +47,8 @@ private:
     QString fileName;
     QString fileInput;
     QFile file;
+    QObject *parent;
+    int q;
     
 };
 

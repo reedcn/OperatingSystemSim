@@ -8,6 +8,7 @@ Operating System Simulator*/
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
+#include <QProcess>
 #include <iostream>
 #include <stdio.h>
 #include <string>
@@ -42,7 +43,6 @@ void HelloForm::textChanged(int x) {
 }
 
 void HelloForm::handleButton() {
-    
     mw = new MainWin();
     mw->show();
     this->close();

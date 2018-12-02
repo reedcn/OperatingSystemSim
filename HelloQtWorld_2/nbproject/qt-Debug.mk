@@ -15,7 +15,7 @@ CXX           = g++
 DEFINES       = -DUNICODE -D_UNICODE -DWIN32 -DMINGW_HAS_SECURE_API=1 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB -DQT_NEEDS_QMAIN
 CFLAGS        = -fno-keep-inline-dllexport -g -Wall -W -Wextra $(DEFINES)
 CXXFLAGS      = -fno-keep-inline-dllexport -g -std=gnu++11 -Wall -W -Wextra -fexceptions -mthreads $(DEFINES)
-INCPATH       = -Inbproject -I. -IC:/Qt/5.11.2/mingw53_32/include -IC:/Qt/5.11.2/mingw53_32/include/QtWidgets -IC:/Qt/5.11.2/mingw53_32/include/QtGui -IC:/Qt/5.11.2/mingw53_32/include/QtANGLE -IC:/Qt/5.11.2/mingw53_32/include/QtCore -I. -I. -IC:/Qt/5.11.2/mingw53_32/mkspecs/win32-g++ 
+INCPATH       = -Inbproject -I. -Ipthread.h -IC:/Qt/5.11.2/mingw53_32/include -IC:/Qt/5.11.2/mingw53_32/include/QtWidgets -IC:/Qt/5.11.2/mingw53_32/include/QtGui -IC:/Qt/5.11.2/mingw53_32/include/QtANGLE -IC:/Qt/5.11.2/mingw53_32/include/QtCore -I. -I. -IC:/Qt/5.11.2/mingw53_32/mkspecs/win32-g++ 
 LINKER      =        g++
 LFLAGS        =        -Wl,-subsystem,windows -mthreads
 LIBS        =        -lmingw32 -LC:/Qt/5.11.2/mingw53_32/lib C:/Qt/5.11.2/mingw53_32/lib/libqtmaind.a -LC:/openssl/lib -LC:/Utils/my_sql/mysql-5.6.11-win32/lib -LC:/Utils/postgresql/pgsql/lib -lshell32 C:/Qt/5.11.2/mingw53_32/lib/libQt5Cored.a C:/Qt/5.11.2/mingw53_32/lib/libQt5Widgetsd.a C:/Qt/5.11.2/mingw53_32/lib/libQt5Guid.a C:/Qt/5.11.2/mingw53_32/lib/libQt5Cored.a build/Debug/MinGW-Windows/HelloQtWorld_2_resource_res.o 
@@ -602,6 +602,8 @@ moc_HelloForm.cpp: C:/Qt/5.11.2/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qpushbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtGui/qicon.h \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/QProcess \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/qprocess.h \
 		ui_HelloForm.h \
 		MainWin.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/QFile \
@@ -643,7 +645,7 @@ moc_HelloForm.cpp: C:/Qt/5.11.2/mingw53_32/include/QtCore/QVariant \
 		HelloForm.h \
 		moc_predefs.h \
 		C:/Qt/5.11.2/mingw53_32/bin/moc.exe
-	'C:\Qt\5.11.2\mingw53_32\bin\moc.exe' $(DEFINES) --include C:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/moc_predefs.h -IC:/Qt/5.11.2/mingw53_32/mkspecs/win32-g++ -IC:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/nbproject -IC:/Qt/5.11.2/mingw53_32/include -IC:/Qt/5.11.2/mingw53_32/include/QtWidgets -IC:/Qt/5.11.2/mingw53_32/include/QtGui -IC:/Qt/5.11.2/mingw53_32/include/QtANGLE -IC:/Qt/5.11.2/mingw53_32/include/QtCore -I. -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++ -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/mingw32 -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/backward -Ic:/mingw/lib/gcc/mingw32/4.9.3/include -Ic:/mingw/include -Ic:/mingw/lib/gcc/mingw32/4.9.3/include-fixed -Ic:/mingw/mingw32/include HelloForm.h -o moc_HelloForm.cpp
+	'C:\Qt\5.11.2\mingw53_32\bin\moc.exe' $(DEFINES) --include C:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/moc_predefs.h -IC:/Qt/5.11.2/mingw53_32/mkspecs/win32-g++ -IC:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/nbproject -IC:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/nbproject/pthread.h -IC:/Qt/5.11.2/mingw53_32/include -IC:/Qt/5.11.2/mingw53_32/include/QtWidgets -IC:/Qt/5.11.2/mingw53_32/include/QtGui -IC:/Qt/5.11.2/mingw53_32/include/QtANGLE -IC:/Qt/5.11.2/mingw53_32/include/QtCore -I. -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++ -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/mingw32 -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/backward -Ic:/mingw/lib/gcc/mingw32/4.9.3/include -Ic:/mingw/include -Ic:/mingw/lib/gcc/mingw32/4.9.3/include-fixed -Ic:/mingw/mingw32/include HelloForm.h -o moc_HelloForm.cpp
 
 moc_MainWin.cpp: C:/Qt/5.11.2/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/qvariant.h \
@@ -770,6 +772,8 @@ moc_MainWin.cpp: C:/Qt/5.11.2/mingw53_32/include/QtCore/QVariant \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qpushbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtGui/qicon.h \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/QProcess \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/qprocess.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/QFile \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/QTextStream \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/QMessageBox \
@@ -809,7 +813,7 @@ moc_MainWin.cpp: C:/Qt/5.11.2/mingw53_32/include/QtCore/QVariant \
 		MainWin.h \
 		moc_predefs.h \
 		C:/Qt/5.11.2/mingw53_32/bin/moc.exe
-	'C:\Qt\5.11.2\mingw53_32\bin\moc.exe' $(DEFINES) --include C:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/moc_predefs.h -IC:/Qt/5.11.2/mingw53_32/mkspecs/win32-g++ -IC:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/nbproject -IC:/Qt/5.11.2/mingw53_32/include -IC:/Qt/5.11.2/mingw53_32/include/QtWidgets -IC:/Qt/5.11.2/mingw53_32/include/QtGui -IC:/Qt/5.11.2/mingw53_32/include/QtANGLE -IC:/Qt/5.11.2/mingw53_32/include/QtCore -I. -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++ -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/mingw32 -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/backward -Ic:/mingw/lib/gcc/mingw32/4.9.3/include -Ic:/mingw/include -Ic:/mingw/lib/gcc/mingw32/4.9.3/include-fixed -Ic:/mingw/mingw32/include MainWin.h -o moc_MainWin.cpp
+	'C:\Qt\5.11.2\mingw53_32\bin\moc.exe' $(DEFINES) --include C:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/moc_predefs.h -IC:/Qt/5.11.2/mingw53_32/mkspecs/win32-g++ -IC:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/nbproject -IC:/cygwin64/home/Christine/test/backup1130/HelloQtWorld_2/nbproject/pthread.h -IC:/Qt/5.11.2/mingw53_32/include -IC:/Qt/5.11.2/mingw53_32/include/QtWidgets -IC:/Qt/5.11.2/mingw53_32/include/QtGui -IC:/Qt/5.11.2/mingw53_32/include/QtANGLE -IC:/Qt/5.11.2/mingw53_32/include/QtCore -I. -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++ -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/mingw32 -Ic:/mingw/lib/gcc/mingw32/4.9.3/include/c++/backward -Ic:/mingw/lib/gcc/mingw32/4.9.3/include -Ic:/mingw/include -Ic:/mingw/lib/gcc/mingw32/4.9.3/include-fixed -Ic:/mingw/mingw32/include MainWin.h -o moc_MainWin.cpp
 
 compiler_moc_objc_header_make_all:
 compiler_moc_objc_header_clean:
@@ -963,6 +967,8 @@ build/Debug/MinGW-Windows/HelloForm.o: HelloForm.cpp C:/Qt/5.11.2/mingw53_32/inc
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qpushbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtGui/qicon.h \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/QProcess \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/qprocess.h \
 		HelloForm.h \
 		ui_HelloForm.h \
 		MainWin.h \
@@ -1129,8 +1135,10 @@ build/Debug/MinGW-Windows/MainWin.o: MainWin.cc C:/Qt/5.11.2/mingw53_32/include/
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qpushbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtGui/qicon.h \
-		C:/Qt/5.11.2/mingw53_32/include/QtCore/QFile \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/QTextStream \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/QProcess \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/qprocess.h \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/QFile \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/QMessageBox \
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qmessagebox.h \
 		MainWin.h \
@@ -1294,6 +1302,8 @@ build/Debug/MinGW-Windows/newmain.o: newmain.cpp C:/Qt/5.11.2/mingw53_32/include
 		C:/Qt/5.11.2/mingw53_32/include/QtWidgets/qabstractbutton.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtGui/qicon.h \
 		HelloForm.h \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/QProcess \
+		C:/Qt/5.11.2/mingw53_32/include/QtCore/qprocess.h \
 		ui_HelloForm.h \
 		MainWin.h \
 		C:/Qt/5.11.2/mingw53_32/include/QtCore/QFile \
