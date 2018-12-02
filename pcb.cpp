@@ -7,17 +7,27 @@ Operating System Simulator*/
 #include <string>
 #include <bits/stdc++.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include <queue>
 #include <time.h>
 #include <stdlib.h>
+#include <thread>
+
 
 #include "pcb.h"
 #include "schedule.h"
 #include "kernel.h"
 using namespace std;
 
+// struct thread_data {
+	// int thread_id;
+	// string s;
+	// string s2;
+// }
+
+/*void ProcessControlBlock::operator()(int x) {
+	cout << "test";
+}*/
 
 int ProcessControlBlock::outInfo() {
 	string processStateString = "";
@@ -50,17 +60,15 @@ int ProcessControlBlock::getCycles(int pId) {
 }
 
 
-/*int ProcessControlBlock::updateProcess(int pId, int pState) {
-	processState = pState;
-	return 0;
-}*/
-
 int ProcessControlBlock::getState(int pId) {
 	return processState;
 }
 
+int ProcessControlBlock::getCommandNo(int pId) {
+	return commandNo;
+}
+
 int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
-	//std::vector<std::string> token_vector;
 	int i  = 0;
 	string token;
 	string token2;
@@ -70,11 +78,15 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
 	string cycles;
 	tokenArrClass = new string[SIZE];
 	tokenArrClass2 = new string[SIZE];
+	ProcessControlBlock p;
 	int c = 0;
+	commandNo = 0;
 	string s;
 	string s2;
 	int randomNo;
 	static const size_t npos = -1;
+	pthread_t threads[q];
+	//struct thread_data td[q][q];
 	
 	for (i = 0; i < row; i++) {
 
@@ -87,22 +99,9 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
 		}
 		tokenArray[i] = token;
 		tokenArray2[i] = token2;
-		
-		//tokenArrClass[i] = tokenArray[i];
-		
-		//tokenQueue.push_back(tokenArray[i]);
-		
-		//tokenArrClass[i] = tokenArray[i];
-		//tokenArrClass2[i] = tokenArray2[i];
-		
-		//token_vector.push_back(tokenArray[i]);
-		//token_vector.push_back(tokenArray2[i]);
-		//cout << "tkv: " << token_vector[i] << endl;
-		//tokenArrClass[i] = tokenArray[i];
-		//tokenArrClass2[i] = tokenArray2[i];
-		
-		//cout << tokenQueue.front();
 	}
+	programCounter = &tokenArray[0];
+	//cout << "Location of instruction: " << &tokenArray[0] << " " << programCounter;
 /* 	if (callNo == 2) {
 		tokenArrClass = tokenArray;
 		tokenArrClass2 = tokenArray2;
@@ -142,35 +141,47 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
 		tokenArrClass = tokenArray;
 		tokenArrClass2 = tokenArray2;
 		updateProcess(getpid(), 3);
-		for (i = 0; i < q; i++) {
-			s = *(tokenArrClass + i);
+		for (i =  getCommandNo(getpid()); i <  q; i++) {
+			//cout << "Location of instruction2: " << &tokenArray[0] << " " << programCounter;
+			// //cout << "GCN: " << getCommandNo(getpid());
+			//for (b = 0; b < q; i++) {
+			 //td[i][i] = *(tokenArrClass + i) + *(tokenArrClass2 + i);
+			 //s = *(tokenArrClass + i);
+			 s = *(tokenArrClass + i);;
 			s2 = *(tokenArrClass2 + i);
-			
+			//cout << "s: " << s << endl;
+			//cout << s2 << endl;
+			//pthread_create(&threads[i], NULL, &ProcessControlBlock::execCommands, NULL);
+			//std::thread t(ProcessControlBlock(), 3);
+			//t.join();
 			if (s.compare("CALCULATE") == 0) {
-				cout << "calc" << endl;
+				//cout << q << " command(s) completed" << endl;
 				cycles = s2;
 				c = atoi(cycles.c_str());
 			} else if (s.compare("IO") == 0) {
-				cout << "io" << endl;
+				//cout << "Command complete" << endl;
 				updateProcess(getpid(), 4);
 			}else if (s.find("IO") != npos) {
-				cout << "io" << endl;
 				srand(time(NULL));
 				randomNo = rand() % 25 + 25;
 				updateProcess(getpid(), 4);
+				cout << "Random number generated: " << randomNo << endl;
 			} else if (s.find("YIELD") != npos) {
-				cout << "yield" << endl;
+				//cout << "Command complete" << endl;
 				break;
 			} else if (s.find("OUT") != npos) {
-				cout << "out" << endl;
 				outInfo();
+				//cout << "Command complete" << s2 << endl;
 			}
 			//cout << s << endl;
 			//cout << s2 << endl;
+			commandNo++;
 		}
+		cout << q << " command(s) completed" << endl;
+		updateCommandNo(commandNo);
+		programCounter = &tokenArray[commandNo];
+		//cout << "Location of instruction2: " << commandNo << tokenArray[commandNo] << " " << programCounter;
 	}
-	//cout << "cycles: " << c;
-	
 	
 	return c;
 }
@@ -196,7 +207,6 @@ int ProcessControlBlock::readFile(string fileName, int pId, int callNo, int q) {
 		row++;
 
 	}
-	//rowsLeft = row;
 	
 	name = tokens[row-1];
 
@@ -206,14 +216,3 @@ int ProcessControlBlock::readFile(string fileName, int pId, int callNo, int q) {
 	//outInfo();
 	return mem;
 }
-
-/*int ProcessControlBlock::executeProcess(int pId) {
-	int i = 0;
-	//vector<string>  token_vector;
-	for (i = 0; i < rowsLeft; i++) {
-		cout << tokenArray[i] << endl << tokenArray2[i] << endl;
-		//token_vector.push_back(tokenArrClass[i]);
-		//token_vector.push_back(tokenArrClass2[i]);
-		//cout << token_vector[i] << endl;
-	}
-}*/

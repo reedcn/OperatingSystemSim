@@ -7,7 +7,6 @@ Operating System Simulator*/
 #include <string>
 #include <bits/stdc++.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include <queue>
 
@@ -16,6 +15,7 @@ Operating System Simulator*/
 #include "kernel.h"
 
 using namespace std;
+
 
 int Schedule::printQueue(queue<int> q) {
 	queue<int> que = q;
@@ -59,7 +59,7 @@ int Schedule::roundRobinScheduler() {
 int selectedProcess = 0;
 			
 selectedProcess = readyQueue.front();
-cout << "Process selected: " << readyQueue.front() << endl;
+cout << "Process selected by the round robin scheduler is: " << readyQueue.front() << endl;
 	return selectedProcess;
 }
 
@@ -86,19 +86,34 @@ int Schedule::dispatcher(int pId, int currentProcessCycles) {
 	burst = currentProcessCycles;
 	p.updateProcess(pId,3);
 	cout << "Burst was " << burst << "\n";
+	if (burst < getQuantum()) {
+		instruct = burst;
+		updateInstruct(instruct);
+	} else {
+		instruct = getQuantum();
+	}
 	burst -= getQuantum();
 	//cout << "quantum is now: " << quantum;
+	if (burst <= 0) {
+			cout << "Process cycles are complete, terminating process..." << endl;
+			p.updateProcess(pId, 5);
+			jobQueue.pop();
+			readyQueue.pop();
+			getQueues();
+			burst = 0;
+	}
 	cout << "Burst is now " << burst << "\n";
 	p.updateCycles(burst);
-		if (burst <= 0) {
-			p.updateProcess(pId, 5);
-		}
 		
-	return 0;
+	return burst;
 }
 
 int Schedule::getMemory() {
 	return totalMem;
+}
+
+int Schedule::getInstruct() {
+	return instruct;
 }
 
 int Schedule::updateMem(int usedMemory) {

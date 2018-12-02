@@ -8,7 +8,6 @@ Operating System Simulator*/
 #include <string>
 #include <bits/stdc++.h>
 #include <unistd.h>
-#include <sys/wait.h>
 #include <unistd.h>
 #include <queue>
 
@@ -23,6 +22,7 @@ class Schedule {
 		std::queue<int> deviceQueue;
 		int currentProcess;
 		int quantum;
+		int instruct;
 		
 		int processState;
 		int processId;
@@ -38,12 +38,14 @@ class Schedule {
 			currentProcess = 0;
 			totalMem = 2048;
 			usedMem = 0;
+			instruct = 0;
 			
 		}
 		
 		addQuantum(int q) {
 			quantum = q;
 		}
+		getInstruct();
 		
 		getQuantum();
 		getQueues();
@@ -51,6 +53,9 @@ class Schedule {
 		updateMem(int usedMem);
 		updateCurrentProcess(int pId) {
 			currentProcess = pId;
+		}
+		updateInstruct(int i) {
+			instruct = i;
 		}
 		
 		enterJobQueue(int pId);

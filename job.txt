@@ -1,6 +1,6 @@
 2
 CALCULATE 3
-IO 32
-OUT
+IO
 YIELD
+OUT
 test.exe
