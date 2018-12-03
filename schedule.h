@@ -39,6 +39,7 @@ class Schedule {
 			totalMem = 2048;
 			usedMem = 0;
 			instruct = 0;
+			burst = 0;
 			
 		}
 		
@@ -46,7 +47,7 @@ class Schedule {
 			quantum = q;
 		}
 		getInstruct();
-		
+		getBurst();
 		getQuantum();
 		getQueues();
 		getMemory();
@@ -56,6 +57,9 @@ class Schedule {
 		}
 		updateInstruct(int i) {
 			instruct = i;
+		}
+		updateBurst(int b) {
+			burst = b;
 		}
 		
 		enterJobQueue(int pId);

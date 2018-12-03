@@ -99,16 +99,26 @@ int Schedule::dispatcher(int pId, int currentProcessCycles) {
 			p.updateProcess(pId, 5);
 			jobQueue.pop();
 			readyQueue.pop();
-			getQueues();
 			burst = 0;
+	} else if (burst > 0) {
+			cout << "Burst is now " << burst << "\n";
+			readyQueue.pop();
+			//if (!readyQueue.empty()) {
+				readyQueue.push(pId);
+			//}
 	}
-	cout << "Burst is now " << burst << "\n";
 	p.updateCycles(burst);
-		
+	updateBurst(burst);
+	
+	getQueues();
 	return burst;
 }
 
 int Schedule::getMemory() {
+	return totalMem;
+}
+
+int Schedule::getBurst() {
 	return totalMem;
 }
 
