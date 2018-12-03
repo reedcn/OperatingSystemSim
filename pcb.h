@@ -1,6 +1,9 @@
 /*Christine Reed
 CMSC 312
-Operating System Simulator*/
+Operating System Simulator
+
+File: pcb.h
+Purpose:  Process Control Block*/
 
 
 #include <iostream>
@@ -64,6 +67,5 @@ class ProcessControlBlock {
 		}
 		
 		outInfo();
-		//void operator()(int x);
 		
 };

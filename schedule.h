@@ -1,6 +1,9 @@
 /*Christine Reed
 CMSC 312
-Operating System Simulator*/
+Operating System Simulator
+
+File: schedule.h
+Purpose:  Scheduler and schedule functions */
 
 
 #include <iostream>

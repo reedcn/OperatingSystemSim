@@ -1,6 +1,9 @@
 /*Christine Reed
 CMSC 312
-Operating System Simulator*/
+Operating System Simulator
+
+File: main.cpp
+Purpose:  Begin application*/
 
 #include <iostream>
 #include <stdio.h>
@@ -22,11 +25,14 @@ using namespace std;
 
 void* continueScheduler(void *test) {
 		pthread_mutex_t mtx= PTHREAD_MUTEX_INITIALIZER;
-		//Critical section
+		
+		//Critical section using mutex locks
+		
 		pthread_mutex_lock(&mtx);
 		Schedule s;
 		s.roundRobinScheduler();
 		pthread_mutex_unlock(&mtx);
+		
 		pthread_exit(NULL);
 }
 
@@ -39,8 +45,6 @@ int main() {
 	Schedule s;
 	Kernel k;
 	
-//	pthread_t thread;
-	
 	ifstream inFile;
 	ofstream outFile;
 
@@ -52,37 +56,40 @@ int main() {
 	int randomNo = 0;
 	int j = 0;
 	
+	// Prompt user to enter a time quantum for the round robin scheduler
 	cout << "Enter time quantum q: ";
 	getline(cin,quantum);
 	q = atoi(quantum.c_str());
     pthread_t t[NUMTHREADS];
 	
+	// For find() string function comparison
 	static const size_t npos = -1;
 	
 
+	// Take in as many files as the user desires
 	while (1) {
 		row = 0;
 		fileName = "";
 		
 		cout << str << " Enter job file ending in .txt or number of job files to create: ";
 		getline(cin, fileName);
+		// For entering a job file manually
 		if (fileName.find(".txt") != npos) {
 			inFile.open(fileName);
 			if (!inFile) {
 				cerr << "Unable to open file";
 				exit(1);
 			} else{
-				//std::thread t(test,fileName, q);
+				// Multithreading
 				pthread_create(&t[i], NULL, continueScheduler, NULL);
 				for (auto& th : t) {
 						pthread_join(t[i], NULL);
 				}
 				pid = k.createNewProcess(fileName,q);
-				//for (i = 0; i < 4; i++) {
-				//}
 
 				inFile.close();
 			}
+		// Auto generate job files
 		} else {
 			int x = stoi(fileName);
 				srand(time(NULL));
@@ -95,7 +102,6 @@ int main() {
 				int calc = rand() % 15 + 5;
 				outFile << "CALCULATE " << calc << "\r" << endl;
 				int numCommands = rand() % 7 + 1;
-				//cout << randCommand;
 				for (j = 0; j < numCommands; j++) {
 					int randCommand = rand() % 3;
 					if  (randCommand == 0) {

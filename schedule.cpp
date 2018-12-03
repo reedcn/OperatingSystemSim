@@ -1,6 +1,9 @@
 /*Christine Reed
 CMSC 312
-Operating System Simulator*/
+Operating System Simulator
+
+File: schedule.h
+Purpose:  Scheduler and schedule functions */
 
 #include <iostream>
 #include <stdio.h>
@@ -16,7 +19,7 @@ Operating System Simulator*/
 
 using namespace std;
 
-
+// Print specified queue
 int Schedule::printQueue(queue<int> q) {
 	queue<int> que = q;
 	
@@ -43,6 +46,7 @@ int Schedule::enterDeviceQueue(int pId) {
 		return 0;
 }
 
+// Print out all Scheduler info
 int Schedule::outInfoSched() {
 	string processStateString = "";
 	
@@ -55,6 +59,7 @@ int Schedule::outInfoSched() {
 	return 0;
 }
 
+// Round Robin Scheduler
 int Schedule::roundRobinScheduler() {
 int selectedProcess = 0;
 			
@@ -63,7 +68,7 @@ cout << "Process selected by the round robin scheduler is: " << readyQueue.front
 	return selectedProcess;
 }
 
-
+// Print out all queues
 int Schedule::getQueues() {
 	
 	cout  << "***********************************" << "\n"
@@ -80,33 +85,42 @@ int Schedule::getQueues() {
 	return 0;
 }
 
+// Dispatcher
 int Schedule::dispatcher(int pId, int currentProcessCycles) {
 	updateCurrentProcess(pId);
 	outInfoSched();
 	burst = currentProcessCycles;
+	// Set process to Running
 	p.updateProcess(pId,3);
 	cout << "Burst was " << burst << "\n";
+	// If quantum is greater than the burst time left, find amount of instructions to perform until burst reaches 0
 	if (burst < getQuantum()) {
 		instruct = burst;
 		updateInstruct(instruct);
 	} else {
 		instruct = getQuantum();
 	}
+	// Subtract quantum from burst
 	burst -= getQuantum();
-	//cout << "quantum is now: " << quantum;
+	
+	// Process is finished (burst = 0)
 	if (burst <= 0) {
 			cout << "Process cycles are complete, terminating process..." << endl;
+			// Set process to Terminated
 			p.updateProcess(pId, 5);
+			//Remove from queues
 			jobQueue.pop();
 			readyQueue.pop();
+			// Set burst to 0 so it cannot be negative
 			burst = 0;
+	// Process still has some burst left
 	} else if (burst > 0) {
 			cout << "Burst is now " << burst << "\n";
+			// Move to back of queue
 			readyQueue.pop();
-			//if (!readyQueue.empty()) {
-				readyQueue.push(pId);
-			//}
+			readyQueue.push(pId);
 	}
+	// Update burst
 	p.updateCycles(burst);
 	updateBurst(burst);
 	
@@ -119,7 +133,7 @@ int Schedule::getMemory() {
 }
 
 int Schedule::getBurst() {
-	return totalMem;
+	return burst;
 }
 
 int Schedule::getInstruct() {

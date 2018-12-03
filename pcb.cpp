@@ -1,6 +1,9 @@
 /*Christine Reed
 CMSC 312
-Operating System Simulator*/
+Operating System Simulator
+
+File: pcb.cpp
+Purpose:  Process Control Block*/
 
 #include <iostream>
 #include <stdio.h>
@@ -19,16 +22,7 @@ Operating System Simulator*/
 #include "kernel.h"
 using namespace std;
 
-// struct thread_data {
-	// int thread_id;
-	// string s;
-	// string s2;
-// }
-
-/*void ProcessControlBlock::operator()(int x) {
-	cout << "test";
-}*/
-
+// OUT command: Print out all info on the PCB
 int ProcessControlBlock::outInfo() {
 	string processStateString = "";
 	
@@ -68,6 +62,7 @@ int ProcessControlBlock::getCommandNo(int pId) {
 	return commandNo;
 }
 
+// After reading lines of text file, tokenize them by words to execute each argument
 int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
 	int i  = 0;
 	string token;
@@ -86,12 +81,13 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
 	int randomNo;
 	static const size_t npos = -1;
 	pthread_t threads[q];
-	//struct thread_data td[q][q];
 	
 	for (i = 0; i < row; i++) {
-
+		// First part of command (the word)
 		token = tokens[i].substr(0,tokens[i].find(delimiter));
+		// Erase first part after putting in array
 		tokens[i].erase(0, tokens[i].find(delimiter) + delimiter.length());
+		// Second part of command (number or NULL)
 		token2 = tokens[i].substr(0,tokens[i].find(delimiter));
 
 		if (token.compare(token2) == 0) {
@@ -100,93 +96,52 @@ int ProcessControlBlock::tokenize(string tokens[], int row, int callNo, int q) {
 		tokenArray[i] = token;
 		tokenArray2[i] = token2;
 	}
+	// Set programCounter to location of first command
 	programCounter = &tokenArray[0];
-	//cout << "Location of instruction: " << &tokenArray[0] << " " << programCounter;
-/* 	if (callNo == 2) {
-		tokenArrClass = tokenArray;
-		tokenArrClass2 = tokenArray2;
-		updateProcess(getpid(), 3);
-		for (i = 0; i < q; i++) {
-			s = *(tokenArrClass + i);
-			s2 = *(tokenArrClass2 + i);
-			
-			if (s.compare("CALCULATE") == 0) {
-				cout << "calc" << endl;
-				cycles = s2;
-				c = atoi(cycles.c_str());
-			} else if (s.compare("IO") == 0) {
-				cout << "io" << endl;
-				updateProcess(getpid(), 4);
-			}else if (s.find("IO") != npos) {
-				cout << "io" << endl;
-				srand(time(NULL));
-				randomNo = rand() % 25 + 25;
-				updateProcess(getpid(), 4);
-			} else if (s.find("YIELD") != npos) {
-				cout << "yield" << endl;
-				break;
-			} else if (s.find("OUT") != npos) {
-				cout << "out" << endl;
-				outInfo();
-			}
-			//cout << s << endl;
-			//cout << s2 << endl;
-		}
-	} */
-	
+	// Set cycles
 	cycles = tokenArray2[0];
 	c = atoi(cycles.c_str());
 	
+	// 2nd time ReadFile is called: execute
 	if (callNo == 2) {
 		tokenArrClass = tokenArray;
 		tokenArrClass2 = tokenArray2;
+		// Set process to Running
 		updateProcess(getpid(), 3);
 		for (i =  getCommandNo(getpid()); i <  q; i++) {
-			//cout << "Location of instruction2: " << &tokenArray[0] << " " << programCounter;
-			// //cout << "GCN: " << getCommandNo(getpid());
-			//for (b = 0; b < q; i++) {
-			 //td[i][i] = *(tokenArrClass + i) + *(tokenArrClass2 + i);
-			 //s = *(tokenArrClass + i);
-			 s = *(tokenArrClass + i);;
+			s = *(tokenArrClass + i);;
 			s2 = *(tokenArrClass2 + i);
-			//cout << "s: " << s << endl;
-			//cout << s2 << endl;
-			//pthread_create(&threads[i], NULL, &ProcessControlBlock::execCommands, NULL);
-			//std::thread t(ProcessControlBlock(), 3);
-			//t.join();
 			if (s.compare("CALCULATE") == 0) {
-				//cout << q << " command(s) completed" << endl;
 				cycles = s2;
 				c = atoi(cycles.c_str());
+				// I/O followed by number
 			} else if (s.compare("IO") == 0) {
-				//cout << "Command complete" << endl;
 				updateProcess(getpid(), 4);
+				// I/O followed by no number
 			}else if (s.find("IO") != npos) {
 				srand(time(NULL));
 				randomNo = rand() % 25 + 25;
 				updateProcess(getpid(), 4);
-				cout << "Random number generated: " << randomNo << endl;
+				cout << "Random number generated for I/O: " << randomNo << endl;
 			} else if (s.find("YIELD") != npos) {
-				//cout << "Command complete" << endl;
 				break;
 			} else if (s.find("OUT") != npos) {
 				outInfo();
-				//cout << "Command complete" << s2 << endl;
 			}
-			//cout << s << endl;
-			//cout << s2 << endl;
 			commandNo++;
 		}
 		cout << q << " command(s) completed" << endl;
+		// Update number of commands scheduler will execute
 		updateCommandNo(commandNo);
+		
+		// Update location
 		programCounter = &tokenArray[commandNo];
-		//cout << "Location of instruction2: " << commandNo << tokenArray[commandNo] << " " << programCounter;
 	}
 	
 	return c;
 }
 
-
+// Read lines of the file
 int ProcessControlBlock::readFile(string fileName, int pId, int callNo, int q) {
 
 	string command = "";
@@ -213,6 +168,5 @@ int ProcessControlBlock::readFile(string fileName, int pId, int callNo, int q) {
 	cycles = tokenize(tokens, row, callNo, q);
 	processId = pId;
 	updateCycles(cycles);
-	//outInfo();
 	return mem;
 }
